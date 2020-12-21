@@ -11,6 +11,9 @@ Install dependencies:
 Run the app:
 `yarn start:dev`
 
+Install packages:
+`yarn add <package_name>`
+
 ## Multiplayer Game
 
 `/`:
