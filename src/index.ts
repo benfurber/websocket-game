@@ -3,9 +3,10 @@ import cors from "cors";
 const app = express()
 
 app.use(cors());
+app.set('view engine', 'ejs');
 
 app.get("/", (req: Request, res: Response) => {
-  res.status(200).send("Hello World!");
+  res.render('index', {});
 })
 
 app.listen(8000,()=>{
