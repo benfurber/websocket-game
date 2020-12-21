@@ -1,2 +1,14 @@
-<!-- <script src="/socket.io/socket.io.js"></script> -->
+<script src="/socket.io/socket.io.js"></script>
+
 <h1>Game ID: <%= id %></h1>
+<p> <span id="nb-of-players">0</span> player(s) connected</p>
+
+<script>
+    const socket = io();
+    const nb_span = document.getElementById('nb-of-players')
+    
+    socket.on("playersCount", (playersCount) => {
+        nb_span.innerText = playersCount;
+    });
+
+</script>

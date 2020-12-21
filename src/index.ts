@@ -25,12 +25,22 @@ app.get("/game/:id", (req: Request, res: Response) => {
 
 const httpServer = createServer(app);
 const io = new Server(httpServer, {});
+let playersCount = 0;
 
 io.on("connection", (socket: Socket) => {
   console.log("connection made")
-  console.log(socket)
+  console.log(socket.id)
+  playersCount += 1
+  io.emit("playersCount", playersCount);
+
+  socket.on("disconnect", (reason) => {
+    console.log('disconnected')
+      playersCount -= 1;
+      io.emit("playersCount", playersCount);
+  });
 });
-  
+
+
 httpServer.listen(port, () => {
   console.log(`Server Started at port: ${port}`)
 })
