@@ -1,7 +1,8 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
 import { createServer } from "http";
-import { Server, Socket } from "socket.io";
+
+import gameServer from "./game-server";
 
 const app = express()
 const port = process.env.PORT || 8000
@@ -24,22 +25,8 @@ app.get("/game/:id", (req: Request, res: Response) => {
 })
 
 const httpServer = createServer(app);
-const io = new Server(httpServer, {});
-let playersCount = 0;
 
-io.on("connection", (socket: Socket) => {
-  console.log("connection made")
-  console.log(socket.id)
-  playersCount += 1
-  io.emit("playersCount", playersCount);
-
-  socket.on("disconnect", (reason) => {
-    console.log('disconnected')
-      playersCount -= 1;
-      io.emit("playersCount", playersCount);
-  });
-});
-
+gameServer(httpServer)
 
 httpServer.listen(port, () => {
   console.log(`Server Started at port: ${port}`)

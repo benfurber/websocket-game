@@ -3,12 +3,18 @@
 <h1>Game ID: <%= id %></h1>
 <p> <span id="nb-of-players">0</span> player(s) connected</p>
 
+<button id="start-game">Start game</button>
+
 <script>
     const socket = io();
     const nb_span = document.getElementById('nb-of-players')
-    
-    socket.on("playersCount", (playersCount) => {
-        nb_span.innerText = playersCount;
-    });
+    const startGame = document.getElementById('start-game')
 
+    startGame.addEventListener("click", () => {
+        socket.emit("startGame", true)
+    })
+    
+    socket.on("data", (data) => {
+        nb_span.innerText = data.playersCount;
+    });
 </script>
