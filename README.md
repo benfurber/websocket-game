@@ -1,7 +1,17 @@
 # Game
 
+## Install and run locally
 
-Multiplayer Game
+Install yarn if necessary:
+`npm install -g yarn`
+
+Install dependencies:
+`yarn install`
+
+Run the app:
+`yarn start:dev`
+
+## Multiplayer Game
 
 `/`:
 -> Start a game. -> Go to the `/game` route
