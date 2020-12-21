@@ -1,6 +1,15 @@
 import { Server, Socket } from "socket.io";
 
-const data = {
+import getCards from "./get-cards";
+
+interface Data {
+    cards: any[];
+    playersCount: number;
+    gameStarted: boolean;
+}
+
+const data: Data = {
+    cards: [],
     playersCount: 0,
     gameStarted: false,
 }
@@ -24,6 +33,8 @@ export default function gameServer(server: any) {
         socket.on("startGame", (boolean) => {
             data.gameStarted = boolean
             console.log("gameStarted", data.gameStarted)
+            
+            data.cards = getCards(data.playersCount)
             emitUpdatedData()
         })
     });

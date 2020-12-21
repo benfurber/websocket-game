@@ -10,6 +10,7 @@
             super(props)
             this.socket = io();
             this.state = {
+                cards: [],
                 playersCount: 0,
                 gameStarted: false,
             }
@@ -24,7 +25,8 @@
         }
 
         render() {
-            const {playersCount, gameStarted} = this.state;
+            const {cards, playersCount, gameStarted} = this.state;
+            console.log({cards})
             return html`
             <div>
                 <p>${playersCount} player(s) connected</p>
