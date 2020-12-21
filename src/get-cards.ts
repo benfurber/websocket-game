@@ -34,8 +34,7 @@ function shuffleArray(array: any[]) {
 }
 
 export default function getCards(totalPlayers: number) {
-    const cards = [];
-
+    let cards = [];
     for(let i = 0; i < totalPlayers; i++) {
         const animal = ANIMALS[i];
 
@@ -43,6 +42,11 @@ export default function getCards(totalPlayers: number) {
             cards.push(createCard(animal))
         }
     }
-
-    return shuffleArray(cards)
+    shuffleArray(cards)
+    let cardsForPlayer = []
+    for(let i = 0; i < cards.length; i += CARDS_PER_PLAYER) {
+        console.log(i, i + CARDS_PER_PLAYER)
+        cardsForPlayer.push(cards.slice(i, i + CARDS_PER_PLAYER))
+    }
+    return cardsForPlayer;
 }
