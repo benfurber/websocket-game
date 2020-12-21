@@ -10,13 +10,18 @@
             super(props)
             this.socket = io();
             this.state = {
-                cards: [],
+                cards: [{name: 'alice'}],
                 playersCount: 0,
                 gameStarted: false,
             }
 
             this.socket.on("data", (data) => {
                 this.setState(data);
+            });
+
+            this.socket.on("cards", (cards) => {
+                console.log(cards)
+                this.setState({cards});
             });
         }
 
@@ -26,13 +31,12 @@
 
         render() {
             const {cards, playersCount, gameStarted} = this.state;
-            console.log({cards})
             return html`
             <div>
                 <p>${playersCount} player(s) connected</p>
                 ${
                     gameStarted ? 
-                    html`<p>Some cards</p>` :
+                    html`<p>${cards[0].name}</p>` :
                     html`<button onClick=${() => {this.startGameHandler()}}>Start game</button>`
                 }
             </div>
@@ -48,7 +52,3 @@
     <div id="game"></div>
   </body>
 </html>
-
-
-
-
