@@ -1,20 +1,52 @@
-<script src="/socket.io/socket.io.js"></script>
-
-<h1>Game ID: <%= id %></h1>
-<p> <span id="nb-of-players">0</span> player(s) connected</p>
-
-<button id="start-game">Start game</button>
-
-<script>
-    const socket = io();
-    const nb_span = document.getElementById('nb-of-players')
-    const startGame = document.getElementById('start-game')
-
-    startGame.addEventListener("click", () => {
-        socket.emit("startGame", true)
-    })
+<!DOCTYPE html>
+<html lang="en">
+  <title>WebSocket Game</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <script type="module">
+    import { html, Component, render } from 'https://unpkg.com/htm/preact/standalone.module.js';
     
-    socket.on("data", (data) => {
-        nb_span.innerText = data.playersCount;
-    });
-</script>
+    class App extends Component {
+        constructor(props){
+            super(props)
+            this.socket = io();
+            this.state = {
+                playersCount: 0,
+                gameStarted: false,
+            }
+
+            this.socket.on("data", (data) => {
+                this.setState(data);
+            });
+        }
+
+        startGameHandler() {
+            this.socket.emit("startGame", true);
+        }
+
+        render() {
+            const {playersCount, gameStarted} = this.state;
+            return html`
+            <div>
+                <p>${playersCount} player(s) connected</p>
+                ${
+                    gameStarted ? 
+                    html`<p>Some cards</p>` :
+                    html`<button onClick=${() => {this.startGameHandler()}}>Start game</button>`
+                }
+            </div>
+            `;
+        }
+    }
+
+    const gameDiv = document.getElementById('game')
+    render(html`<${App} />`, gameDiv);
+  </script>
+  <body>
+    <h1>Game ID: <%= id %></h1>
+    <div id="game"></div>
+  </body>
+</html>
+
+
+
+
