@@ -1,6 +1,8 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
+
 const app = express()
+const port = process.env.PORT || 8000
 
 app.use(cors());
 app.set('view engine', 'ejs');
@@ -19,6 +21,6 @@ app.get("/game/:id", (req: Request, res: Response) => {
     res.render('game', {id});
 })
   
-app.listen(8000,()=>{
-  console.log('Server Started at Port, 8000')
+app.listen(port, () => {
+  console.log(`Server Started at port: ${port}`)
 })
